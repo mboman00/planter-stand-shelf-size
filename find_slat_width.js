@@ -90,9 +90,9 @@ let slatWidthPlusOrMinus = 5
 let slatStepSize = 0.5
 
 let matrixPlatforms = []
-let rangeI = 20
-let rangeJ = 20
-let rangeK = 20
+let rangeI = 2
+let rangeJ = 2
+let rangeK = 2
 
 // Create a matrix of platform lengths to test
 for (let i of range(platformLengths[0] - rangeI, platformLengths[0] + rangeI)) {
@@ -130,24 +130,26 @@ for (let platformLengths of matrixPlatforms) {
   bestResults.push(platformResults)
 }
 
-// Find the best result allowing every platform to adjust while keeping the slats as close to equal as possible.
-let minSet = []
-let minCloseness = 500
+let minSet = [];
+let minCloseness = 500;
 for (let i = 0; i < bestResults.length; i++) {
-  let result = bestResults[i]
+  let result = bestResults[i].map(([PlatformLength, SlatWidth, SlatCount]) => ({
+    PlatformLength: parseFloat(PlatformLength.toFixed(2)),
+    SlatWidth: parseFloat(SlatWidth.toFixed(2)),
+    SlatCount: parseFloat(SlatCount.toFixed(2))
+  }));
   if (i === 0) {
-    minSet = result
+    minSet = result;
   } else {
-    let minA = result[0][1]
-    let minB = result[1][1]
-    let minC = result[2][1]
-    let closeness =
-      Math.abs(minA - minB) + Math.abs(minA - minC) + Math.abs(minB - minC)
+    let minA = result[0].SlatWidth;
+    let minB = result[1].SlatWidth;
+    let minC = result[2].SlatWidth;
+    let closeness = Math.abs(minA - minB) + Math.abs(minA - minC) + Math.abs(minB - minC);
     if (closeness < minCloseness) {
-      minCloseness = closeness
-      minSet = result
+      minCloseness = closeness;
+      minSet = result;
     }
   }
 }
 
-console.log("Best Set: ", minSet)
+console.table(minSet);
