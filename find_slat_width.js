@@ -1,3 +1,9 @@
+// This program calculates slats for 3 platforms with given lengths
+// The slats should be equal in size and space, as close to 40mm as possible.
+// All variables are hardcoded, but should be easy to change.
+
+
+// Function to create a range of numbers similar to Python's range function
 function range(start, end, step = 1) {
   let arr = []
   for (let i = start; i <= end; i += step) {
@@ -6,6 +12,8 @@ function range(start, end, step = 1) {
   return arr
 }
 
+// Function to find slat width for a single given platform length
+// The function returns an array of valid slat widths and number of slats
 function findSlatWidth(
   platformLength,
   startSlatWidth = 35,
@@ -32,6 +40,9 @@ function findSlatWidth(
   return [validSlatWidths, validNumSlats]
 }
 
+// Function to adjust the slat width for all platforms
+// While maintaing the platform lengths, the function finds the best slat width(s)
+// for each platform, and returns an array of the best slat widths for each platform
 function adjustPlatforms(platformLengths) {
   let results = []
   for (let i = 0; i < platformLengths.length; i++) {
@@ -83,6 +94,7 @@ let rangeI = 20
 let rangeJ = 20
 let rangeK = 20
 
+// Create a matrix of platform lengths to test
 for (let i of range(platformLengths[0] - rangeI, platformLengths[0] + rangeI)) {
   for (let j of range(
     platformLengths[1] - rangeJ,
@@ -94,6 +106,7 @@ for (let i of range(platformLengths[0] - rangeI, platformLengths[0] + rangeI)) {
   }
 }
 
+// Find the best slat width for each row in the matrix
 let bestResults = []
 for (let platformLengths of matrixPlatforms) {
   let results = []
@@ -117,6 +130,7 @@ for (let platformLengths of matrixPlatforms) {
   bestResults.push(platformResults)
 }
 
+// Find the best result allowing every platform to adjust while keeping the slats as close to equal as possible.
 let minSet = []
 let minCloseness = 500
 for (let i = 0; i < bestResults.length; i++) {
